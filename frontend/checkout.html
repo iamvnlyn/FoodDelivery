@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Food Delivery</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px; /* Add some padding */
+            box-sizing: border-box;
+        }
+        .checkout-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px; /* Adjust max-width as needed */
+            text-align: left;
+        }
+        .checkout-container h2 {
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        /* Group to help with layout if you want multiple inputs on one line */
+        .form-group {
+            margin-bottom: 20px; /* Consistent spacing between groups */
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea,
+        .form-group select {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        /* Style for the select element, similar to inputs */
+        .checkout-form select {
+            width: 100%; /* Make select full width within its container */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .checkout-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .checkout-form button,
+        .thank-you-container button { /* Apply similar styling to the new button */
+            background-color: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .checkout-form button:hover,
+        .thank-you-container button:hover { /* Apply similar styling to the new button */
+            background-color: #ff4c4c;
+        }
+        #checkout-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+        }
+        #checkout-message.error {
+            background-color: #ffe5e5;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+        #checkout-message.success {
+            background-color: #e6ffe6;
+            color: #008000;
+            border: 1px solid #008000;
+        }
+
+        .order-summary {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .order-summary h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .order-summary table th,
+        .order-summary table td {
+            border: 1px solid #eee;
+            padding: 10px;
+            text-align: left;
+        }
+        .order-summary table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+        }
+        .order-summary .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* Styles for the new thank you message */
+        .thank-you-container {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid #008000;
+            background-color: #e6ffe6;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .thank-you-container h3 {
+            color: #008000;
+            margin-bottom: 15px;
+        }
+        .thank-you-container p {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        /* Initially hide the thank you container */
+        .thank-you-container.hidden {
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <h2>Complete Your Order</h2>
+        <div id="checkout-message"></div>
+
+        <div id="orderSummarySection" class="order-summary">
+            <h3>Your Cart Items</h3>
+            <table id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Action</th> </tr>
+                </thead>
+                <tbody id="checkout-cart-items">
+                    </tbody>
+            </table>
+            <div class="total">
+                Total Amount: $<span id="checkout-total-amount">0.00</span>
+            </div>
+        </div>
+
+        <form id="checkoutForm" class="checkout-form" onsubmit="event.preventDefault(); window.handleCheckoutSubmission();">
+            <h3>Delivery Details</h3>
+
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="middleName">Middle Name (Optional):</label>
+                <input type="text" id="middleName" name="middleName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="street">Street:</label>
+                <input type="text" id="street" name="street" required>
+            </div>
+            <div class="form-group">
+                <label for="barangay">Barangay:</label>
+                <input type="text" id="barangay" name="barangay" required>
+            </div>
+            <div class="form-group">
+                <label for="houseNumber">House Number (Optional):</label>
+                <input type="text" id="houseNumber" name="houseNumber">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+
+            <div class="form-group">
+                <label for="paymentMethod">Mode of Payment:</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="">Select Payment Method</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Credit Card">Credit Card (coming soon)</option>
+                    <option value="PayPal">PayPal (coming soon)</option>
+                </select>
+            </div>
+
+            <button type="submit">Place Order</button>
+
+        </form>
+
+        <div id="thankYouContainer" class="thank-you-container hidden">
+            <h3>Thank You for Your Order!</h3>
+            <p>Your order has been placed successfully. We've sent a confirmation to your email.</p>
+            <p>We appreciate your business!</p>
+            <button id="goHomeButton">Go Back to Home</button>
+        </div>
+
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    
+    <script src="js/checkout.js"></script>
+    </body>
+</html>

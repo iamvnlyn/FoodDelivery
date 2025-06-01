@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/main.css" /> <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <title>Food Delivery Service</title>
+</head>
+<body>
+  <div class="sidebar">
+    <h1 class="DoorDash">DoorDash</h1>
+    <div class="sidebar-menus">
+      <a href="main.html"><ion-icon name="storefront-outline"></ion-icon> Home</a>
+      <a href="checkout.html"><ion-icon name="receipt-outline"></ion-icon> Bills</a>
+      <a href="developer.html"><ion-icon name="wallet-outline"></ion-icon> Developer</a>
+      <a href="contact.html"><ion-icon name="chatbubbles-outline"></ion-icon> Contact Us</a>    
+
+      <a class="cart" href="#" onclick="toggleCartPopup()">
+          <ion-icon name="cart-outline"></ion-icon>
+          <span class="cart-count" id="cart-count">0"></span>Cart
+      </a>
+
+      <a class="user" href="#"><ion-icon name="person-outline"></ion-icon><span id="username-display" class="username-display"></span></a>
+         
+      
+    </div>
+
+
+    <div class="sidebar-logout">
+      <a href="#" onclick="logout()"><ion-icon name="log-out-outline"></ion-icon> Logout</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-navbar">
+      <ion-icon class="menu-toggle" name="menu-outline"></ion-icon>
+
+      <div class="search">
+        <input type="text" id="menu-search" placeholder="What you want to eat?" />
+        <button class="search-btn">Search</button>
+      </div>
+    </div>
+
+   <div id="cart-popup" class="cart-popup">
+  <h3>Your Cart</h3>
+  <table id="cart-items">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      </tbody>
+  </table>
+  <div class="cart-summary">
+    <p>Total Items: <span id="cart-count">0</span></p>
+    <p>Total Amount: $<span id="cart-total">0.00</span></p>
+  </div>
+  <button onclick="closeCart()">Close</button>
+  <button id="checkout-button">Checkout</button>
+</div>
+
+
+    <div class="main-highlight">
+      <div class="main-header">
+        <h2 class="main-title" style="color: white;">Recommendations</h2>
+        <div class="main-arrow" style="color: white;">
+          <ion-icon class="back" name="chevron-back-circle-outline"></ion-icon>
+          <ion-icon class="next" name="chevron-forward-circle-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="highlight-wrapper">
+       
+        <div class="highlight-card"  onclick="addToCart('Fresh Salad', 42.50)">
+          <img class="highlight-img" src="image/salad.jpg" alt="Fresh Salad" />
+          <div class="highlight-desc">
+            <h4>Fresh Salad</h4>
+            <p>$42.50</p>
+          </div>
+        </div>
+        <div class="highlight-card"  onclick="addToCart('Cafe Latte', 20.00)">
+            <img class="highlight-img" src="image/coffee.jpg">
+            <div class="highlight-desc">
+                <h4>Cafe Latte</h4>
+                <p>$20.00</p>
+            </div>
+        </div>
+
+        <div class="highlight-card" onclick="addToCart('Premium Steak', 50.00)">
+            <img class="highlight-img" src="image/steak.png">
+            <div class="highlight-desc">
+                <h4>Premium Steak</h4>
+                <p>$50.00</p>
+            </div>
+        </div>
+
+        <div class="highlight-card" onclick="addToCart('Big Burger', 35.50)">
+            <img class="highlight-img" src="image/burger.jpg">
+            <div class="highlight-desc">
+                <h4>Big Burger</h4>
+                <p>$35.50</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  <div class="main-menus">
+    <div class="main-filter">
+        <div>
+            <h2 class="main-title">Menu <br />Category</h2>
+            <div class="main-arrow">
+                <ion-icon class="back-menus" name="chevron-back-circle-outline"></ion-icon>
+                <ion-icon class="next-menus" name="chevron-forward-circle-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="filter-wrapper">
+            <div class="filter-card filter-btn active" data-category="all">
+                <div class="filter-icon"><ion-icon name="restaurant-outline"></ion-icon></div>
+                <p>All Menus</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Burger">
+                <div class="filter-icon"><ion-icon name="fast-food-outline"></ion-icon></div>
+                <p>Burger</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Pizza">
+                <div class="filter-icon"><ion-icon name="pizza-outline"></ion-icon></div>
+                <p>Pizza</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Wine">
+                <div class="filter-icon"><ion-icon name="wine-outline"></ion-icon></div>
+                <p>Wine</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Ice Cream">
+                <div class="filter-icon"><ion-icon name="ice-cream-outline"></ion-icon></div>
+                <p>Ice Cream</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Coffee">
+                <div class="filter-icon"><ion-icon name="cafe-outline"></ion-icon></div>
+                <p>Coffee</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Seafood">
+                <div class="filter-icon"><ion-icon name="fish-outline"></ion-icon></div>
+                <p>Seafood</p>
+            </div>
+            <div class="filter-card filter-btn" data-category="Healthy">
+                <div class="filter-icon"><ion-icon name="nutrition-outline"></ion-icon></div>
+                <p>Healthy</p>
+            </div>
+             <div class="filter-card filter-btn" data-category="Meat">
+                <div class="filter-card filter-btn" data-category="Meat">  <div class="filter-icon"><ion-icon name="restaurant-outline"></ion-icon></div>
+                <p>Meat</p> </div>
+            </div>
+        </div>
+    </div>
+    <hr class="divider" />
+
+    <div class="main-detail">
+        <h2 class="main-title">Choose Order</h2>
+        <div class="detail-wrapper" id="main-menu-container"> <div class="detail-card menu-item" data-name="Big Burger" data-category="Burger">
+                <img class="detail-img" src="image/bigburger.jpg" alt="Big Burger" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Big Burger</h4>
+                        <p class="detail-sub">A burger is a sandwich with a cooked patty...</p>
+                        <p class="price">$245.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Big Burger', 245.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+             <div class="detail-card menu-item" data-name="Hotdog" data-category="Burger">
+                <img class="detail-img" src="image/hotdog.png" alt="Burger" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Hotdog</h4>
+                        <p class="detail-sub">A hot dog at the ballgame beats roast beef at the Ritz..</p>
+                        <p class="price">$100.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Hotdog', 100.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+             <div class="detail-card menu-item" data-name="Taco" data-category="Pizza">
+                <img class="detail-img" src="image/taco.png" alt="Taco" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Taco</h4>
+                        <p class="detail-sub">Life is short, eat more tacos.</p>
+                        <p class="price">$150.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Taco', 150.00)">Add to Cart</button>
+                    </div>
+                   
+                </div>
+            </div>
+
+             <div class="detail-card menu-item" data-name="Hawaiian Pizza" data-category="Pizza">
+                <img class="detail-img" src="image/hawaiian.png" alt="Hawaiian Pizza" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Hawaiian Pizza</h4>
+                        <p class="detail-sub">It's like a Hawaiian vacation in my mouth.</p>
+                        <p class="price">$100.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Hawaiian Pizza', 100.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Pizza" data-category="Pizza">
+                <img class="detail-img" src="image/pizza.jpg" alt="Pizza" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Pepperoni Pizza</h4>
+                        <p class="detail-sub">A freshly baked pizza with toppings...</p>
+                        <p class="price">$250.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Pepperoni Pizza', 250.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Salad" data-category="Healthy">
+                <img class="detail-img" src="image/salad.jpg">
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Salad</h4>
+                        <p class="detail-sub">Lorem ipsum dolor sit amet consectetur providenr dolorominque minima.</p>
+                        <p class="price">$300.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Salad', 300.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Potato Salad" data-category="Healthy">
+                <img class="detail-img" src="image/potatosalad.png">
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Potato Salad</h4>
+                        <p class="detail-sub">High fashion has the shelf life of potato salad. And when past its prime, it is similarly deadly.</p>
+                        <p class="price">$200.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Potato Salad', 200.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Tomato Salad" data-category="Healthy">
+                <img class="detail-img" src="image/tomatosalad.png">
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Tomato Summer Salad</h4>
+                        <p class="detail-sub">Knowledge is knowing a tomato is a fruit; wisdom is not putting it in a fruit salad.</p>
+                        <p class="price">$100.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Tomato Summer Salad', 100.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+            <div class="detail-card menu-item" data-name="Fish Steak" data-category="Seafood">
+                <img class="detail-img" src="image/fish steak.jpg">
+                <div class="detail-desc">
+                     <div class="detail-name">
+                        <h4>Fish Steak</h4>
+                        <p class="detail-sub">Lorem ipsum dolor sit amet consectetur providenr dolorominque minima.</p>
+                        <p class="price">$300.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Fish Steak', 300.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+            <div class="detail-card menu-item" data-name="Fries" data-category="Burger"> <img class="detail-img" src="image/fries.jpg">
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Fries</h4>
+                        <p class="detail-sub">Fries are thin strips of potato, deep-fried until crispy, often served with dipping sauces. They come in various styles, like straight-cut or crinkle-cut.</p>
+                        <p class="price">$250.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Fries', 250.00)">Add to Cart</button>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+
+
+            <div class="detail-card menu-item" data-name="Fruity Salad" data-category="Healthy"> <img class="detail-img" src="image/fruitysalad.png">
+                <div class="detail-desc">
+                     <div class="detail-name">
+                        <h4>Fruity Summer Salad</h4>
+                        <p class="detail-sub">A fruit salad is delicious precisely because each fruit maintains its own flavor.</p>
+                        <p class="price">$300.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Fruity Summer Salad', 300.00)">Add to Cart</button>
+                    </div>
+                    
+                    
+                </div>
+
+
+            </div>
+            <div class="detail-card menu-item" data-name="Seafood Platter" data-category="Seafood">
+                <img class="detail-img" src="image/seafood.jpg">
+                <div class="detail-desc">
+                        <div class="detail-name">
+                          <h4>Seafood Platter</h4>
+                          <p class="detail-sub">A vibrant seafood boil featuring crab legs, shrimp, clams, corn, potatoes, and lemon wedges, all served on a tray.</p>
+                          <p class="price">$300.00</p>
+                          <button class="add-to-cart-btn" onclick="addToCart('Seafood Platter', 300.00)">Add to Cart</button>
+                       </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Salmon" data-category="Seafood">
+                <img class="detail-img" src="image/lemongarlicsalmon.png">
+                <div class="detail-desc">
+                        <div class="detail-name">
+                          <h4>Lemon Garlic Salmon</h4>
+                          <p class="detail-sub">When life gets tough, just eat more salmon.</p>
+                          <p class="price">$100.00</p>
+                          <button class="add-to-cart-btn" onclick="addToCart('Lemon Garlic Salmon', 100.00)">Add to Cart</button>
+                       </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Grilled Lobster" data-category="Seafood">
+                <img class="detail-img" src="image/grilledlobster.png">
+                <div class="detail-desc">
+                        <div class="detail-name">
+                          <h4>Grilled Lobster</h4>
+                          <p class="detail-sub">Butter and lobster: a perfect match.</p>
+                          <p class="price">$200.00</p>
+                          <button class="add-to-cart-btn" onclick="addToCart('Grilled Lobster', 200.00)">Add to Cart</button>
+                       </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Beef Steak" data-category="Meat">
+                <img class="detail-img" src="image/steak2.jpg">
+                <div class="detail-desc">
+                       <div class="detail-name">
+                          <h4>Beef Steak</h4>
+                          <p class="detail-sub">A gourmet steak dish, elegantly plated with herbs, mushrooms, and a rich sauce.</p>
+                          <p class="price">$300.00</p>
+                          <button class="add-to-cart-btn" onclick="addToCart('Steak', 300.00)">Add to Cart</button>
+                     </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Red Wine Bottle" data-category="Wine">
+                <img class="detail-img" src="image/redwine.png" alt="Red Wine Bottle" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Red Wine Bottle</h4>
+                        <p class="detail-sub">A rich, full-bodied red wine.</p>
+                        <p class="price">$500.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Red Wine Bottle', 500.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Orange Wine" data-category="Wine">
+                <img class="detail-img" src="image/orangewine.png" alt="Orange Wine" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Orange Wine</h4>
+                        <p class="detail-sub">Origine presents a unique range of premium orange wines.</p>
+                        <p class="price">$400.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Orange Wine', 400.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="white wine" data-category="Wine">
+                <img class="detail-img" src="image/whitewine.png" alt="Red Wine Bottle" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>White Wine</h4>
+                        <p class="detail-sub">White wine is like electricity.</p>
+                        <p class="price">$300.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('White Wine', 300.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Vanilla Ice Cream" data-category="Ice Cream">
+                <img class="detail-img" src="image/vanillaicecream.png" alt="Vanilla Ice Cream" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Vanilla Ice Cream</h4>
+                        <p class="detail-sub">Classic vanilla ice cream.</p>
+                        <p class="price">$120.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Vanilla Ice Cream', 120.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Strawberry Ice Cream" data-category="Ice Cream">
+                <img class="detail-img" src="image/strawberryicecream.png" alt="Strawberry Ice Cream" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Strawberry Ice Cream</h4>
+                        <p class="detail-sub">Yummy Strawberry Ice Cream.</p>
+                        <p class="price">$100.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Strawberry Ice Cream', 100.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Choco Ice Cream" data-category="Ice Cream">
+                <img class="detail-img" src="image/chocoicecream.png" alt="Vanilla Ice Cream" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Choco Ice Cream</h4>
+                        <p class="detail-sub">Chocolatey creamy.</p>
+                        <p class="price">$110.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Choco Ice Cream', 110.00)">Add to Cart</button>
+                    </div>
+                   
+                </div>
+            </div>
+
+
+            <div class="detail-card menu-item" data-name="Espresso" data-category="Coffee">
+                <img class="detail-img" src="image/espresso.png" alt="Espresso" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Espresso</h4>
+                        <p class="detail-sub">Strong coffee shot.</p>
+                        <p class="price">$90.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Espresso', 90.00)">Add to Cart</button>
+                    </div>
+                   
+                </div>
+            </div>
+
+             <div class="detail-card menu-item" data-name="Spanish Latte" data-category="Coffee">
+                <img class="detail-img" src="image/spanishlatte.png" alt="Spanish Latte" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Spanish Latte</h4>
+                        <p class="detail-sub">The beauty of coffee.</p>
+                        <p class="price">$80.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Spanish Latte', 80.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="detail-card menu-item" data-name="Iced Coffee" data-category="Coffee">
+                <img class="detail-img" src="image/icedcoffee.png" alt="Iced Coffee" />
+                <div class="detail-desc">
+                    <div class="detail-name">
+                        <h4>Iced Coffee</h4>
+                        <p class="detail-sub">Begin your day with coffee.</p>
+                        <p class="price">$50.00</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Iced Coffee', 20.00)">Add to Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script> </body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Chat with Owner</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+    <style>
+        /* Basic styling for the chat container */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .chat-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            height: 80vh; /* Make chat container take up most of the viewport height */
+            min-height: 400px;
+            overflow: hidden;
+        }
+        .chat-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .chat-messages {
+            flex-grow: 1; /* Allows messages area to take available space */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            overflow-y: auto; /* Enable scrolling for messages */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            word-wrap: break-word;
+        }
+        .message.sent {
+            background-color: var(--primaryColor); /* Your primary color */
+            color: white;
+            align-self: flex-end; /* Align to the right */
+            border-bottom-right-radius: 5px; /* Sharpen bottom-right corner */
+        }
+        .message.received {
+            background-color: #e0e0e0; /* Light grey */
+            color: #333;
+            align-self: flex-start; /* Align to the left */
+            border-bottom-left-radius: 5px; /* Sharpen bottom-left corner */
+        }
+        .message-timestamp {
+            font-size: 0.75em;
+            color: #888;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .message.received .message-timestamp {
+            text-align: left;
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input-area input[type="text"] {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .chat-input-area button {
+            background-color: var(--primaryColor);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .chat-input-area button:hover {
+            background-color: var(--secondaryColor);
+        }
+        .back-to-home {
+            background-color: #6c757d; /* A neutral color */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .back-to-home:hover {
+            background-color: #5a6268;
+        }
+        #chat-status-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+            background-color: #f8d7da; /* Light red for error */
+            color: #721c24; /* Dark red text */
+            display: none; /* Hidden by default */
+        }
+        #chat-status-message.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Chat with Us</h2>
+        <div id="chat-status-message"></div>
+
+        <div id="chatMessages" class="chat-messages">
+            <p style="text-align: center; color: #888;">Loading chat history...</p>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button id="sendMessageButton">Send</button>
+        </div>
+        <button id="backToHomeButton" class="back-to-home">Back to Home</button>
+    </div>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Call the function to load chat history when this page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.loadChatHistory();
+            // Event listener for sending message
+            document.getElementById('sendMessageButton').addEventListener('click', window.sendMessage);
+            document.getElementById('messageInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent new line in input
+                    window.sendMessage();
+                }
+            });
+            // Event listener for back to home button
+            document.getElementById('backToHomeButton').addEventListener('click', () => {
+                window.location.href = 'main.html';
+            });
+        });
+    </script>
+</body>
+</html>
