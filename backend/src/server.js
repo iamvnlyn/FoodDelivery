@@ -11,7 +11,10 @@ const chatRoutes = require('./routes/chatRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+    origin: 'http://localhost:8080' 
+}));
+
 app.use(express.json()); // Parse JSON request bodies
 
 // Routes
