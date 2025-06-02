@@ -1,13 +1,25 @@
 const Cart = require('../models/cartModel');
 
 const getCartItems = async (req, res) => {
+    console.log('--- Inside getCartItems controller ---');
     try {
-        const userId = req.user.id; // User ID from authenticated token
+        if (!req.user || !req.user.id) {
+            console.error('--- req.user or req.user.id is missing in getCartItems ---');
+            return res.status(401).json({ message: 'Authentication required.' });
+        }
+        const userId = req.user.id;
+        console.log('--- User ID:', userId);
+
         const cartId = await Cart.getOrCreateCart(userId);
+        console.log('--- Cart ID:', cartId);
+
         const items = await Cart.getCartItems(cartId);
+        console.log('--- Fetched items:', items);
+
         res.status(200).json(items);
+        console.log('--- Sent 200 response for cart items ---');
     } catch (error) {
-        console.error("Error fetching cart items:", error);
+        console.error("Error in getCartItems:", error);
         res.status(500).json({ message: "Failed to retrieve cart items.", error: error.message });
     }
 };

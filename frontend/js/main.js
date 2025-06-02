@@ -127,7 +127,7 @@ window.addToCart = async function(itemName, itemPrice) {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/cart`, {
+        const response = await fetch(`${API_BASE_URL}/api/cart`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -215,7 +215,7 @@ async function fetchCartItems() {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/cart`, {
+        const response = await fetch(`${API_BASE_URL}/api/orders`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -470,7 +470,7 @@ window.loadChatHistory = async function() {
 
     try {
         // Fetch current user's ID from backend (if not already in token)
-        const userResponse = await fetch(`${API_BASE_URL}/auth/me`, {
+        const userResponse = await fetch(`${API_BASE_URL}/api/auth/me`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
         if (!userResponse.ok) {
@@ -480,7 +480,7 @@ window.loadChatHistory = async function() {
         const currentUserId = userData.id;
 
         // Fetch chat history between current user and owner
-        const response = await fetch(`${API_BASE_URL}/chat/${OWNER_USER_ID}`, {
+        const response = await fetch(`<span class="math-inline">\{API\_BASE\_URL\}/api/chat/</span>{OWNER_USER_ID}`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
 
@@ -530,7 +530,7 @@ window.sendMessage = async function() {
     chatStatusMessage.classList.remove("active"); // Hide status message
 
     try {
-        const response = await fetch(`${API_BASE_URL}/chat`, {
+        const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
