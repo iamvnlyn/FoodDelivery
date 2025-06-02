@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     return;
                 }
 
-                localStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.token);c
                 localStorage.setItem("username", data.user.username);
                 localStorage.setItem("userId", data.user.id); // Store user ID
                 localStorage.setItem("email", data.user.email); // Store email
 
                 loginMessageDiv.style.color = "green";
                 loginMessageDiv.textContent = "Login successful! Redirecting...";
-                window.location.href = "main.html"; // Redirect to main page
+                window.location.href = "index.html"; // Redirect to main page
 
             } catch (error) {
                 console.error("Login error:", error);
