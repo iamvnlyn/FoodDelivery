@@ -18,11 +18,11 @@ app.use(cors({
 app.use(express.json()); // Parse JSON request bodies
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/cart', cartRoutes);
-app.use('/orders', orderRoutes);
-app.use('/products', productRoutes);
-app.use('/chat', chatRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/chat', chatRoutes);
 console.log('--- Chat routes mounted at /api/chat in server.js ---'); // <--- PLACE THIS RIGHT AFTER app.use('/api/chat', chatRoutes);
 
 // Basic route for testing
