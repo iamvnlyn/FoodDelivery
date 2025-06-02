@@ -210,7 +210,7 @@ window.handleCheckoutSubmission = async function() {
     console.log("Cart items being submitted:", cartItems);
 
     if (cartItems.length === 0) {
-        alert("Your cart is empty. Cannot place an order.");
+        alert("Your cart is empty. Cannot place an order."); // This alert should ideally not be hit now if items are visible
         return;
     }
     orderDetails.items = cartItems; // Add the cart items to the order details
@@ -235,41 +235,55 @@ window.handleCheckoutSubmission = async function() {
             throw new Error(data.message || `Failed to place order: ${response.statusText}`);
         }
 
-        // ... (rest of success handling is fine)
+        // --- SUCCESS HANDLING START ---
+        // Display success message
+        checkoutMessageDiv.classList.remove("error"); // Ensure error class is removed
+        checkoutMessageDiv.classList.add("success");
+        checkoutMessageDiv.textContent = "Order placed successfully!";
+
+        // Hide form and summary, show thank you message
+        document.getElementById("checkoutForm").classList.add("hidden");
+        document.getElementById("orderSummarySection").classList.add("hidden");
+        document.getElementById("thankYouContainer").classList.remove("hidden");
+        
+        // Mark order as placed (if needed elsewhere)
+        sessionStorage.setItem('orderPlaced', 'true');
+
+        // Clear cart from frontend UI and sessionStorage
+        sessionStorage.removeItem("currentCart"); // Remove cart data
+        window.clearCheckoutCartUI?.(); // Clear displayed items
+
+        // Redirect home button to index.html
+        const goHomeButton = document.getElementById("goHomeButton");
+        if (goHomeButton) {
+            goHomeButton.onclick = () => {
+                window.location.href = "index.html"; // Corrected to index.html
+            };
+        }
+        // --- SUCCESS HANDLING END ---
 
     } catch (error) {
         console.error("Error placing order:", error);
-        // NEW: Display the actual error message in the UI div
+        // Display the actual error message in the UI div
         if (checkoutMessageDiv) {
             checkoutMessageDiv.className = "error";
             checkoutMessageDiv.textContent = `Error placing order: ${error.message}`;
         }
-        // REMOVE the hardcoded alert here if it exists in your actual code
-        // alert("Your cart is empty. Cannot place an order.");
+        // Re-show form and summary in case of error
+        document.getElementById("checkoutForm").classList.remove("hidden");
+        document.getElementById("orderSummarySection").classList.remove("hidden");
+        document.getElementById("thankYouContainer").classList.add("hidden");
+        sessionStorage.removeItem('orderPlaced'); // Clear flag if error
 
-        // ... (rest of error handling is fine)
     }
 };
 
-// --- IMPORTANT: Fix the goHomeButton redirect ---
+// --- Single DOMContentLoaded Listener ---
 document.addEventListener("DOMContentLoaded", () => {
     const goHomeButton = document.getElementById("goHomeButton");
     if (goHomeButton) {
         goHomeButton.addEventListener("click", () => {
-            window.location.href = "index.html"; // Changed from main.html to index.html
-        });
-    }
-
-    // Call the main cart fetching function when the DOM is ready
-    fetchAndRenderCheckoutCartItems();
-});
-
-// --- Go Back Home Button Logic ---
-document.addEventListener("DOMContentLoaded", () => {
-    const goHomeButton = document.getElementById("goHomeButton");
-    if (goHomeButton) {
-        goHomeButton.addEventListener("click", () => {
-            window.location.href = "main.html";
+            window.location.href = "index.html"; // Ensure this is index.html
         });
     }
 
