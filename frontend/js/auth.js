@@ -1,4 +1,7 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() { 
+    
+    const API_BASE_URL = "https://fooddelivery-6q1l.onrender.com/api";
+
     const loginForm = document.getElementById("loginForm");
     const signupForm = document.getElementById("signupForm");
     const loginMessageDiv = document.getElementById("login-message");
@@ -15,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
             loginMessageDiv.textContent = ''; // Clear previous messages
 
             try {
-                const response = await fetch("http://localhost:5000/api/auth/login", {
+                // Use API_BASE_URL + the specific endpoint
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password }),
@@ -59,7 +63,8 @@ document.addEventListener("DOMContentLoaded", function() {
             signupMessageDiv.textContent = ''; // Clear previous messages
 
             try {
-                const response = await fetch("http://localhost:5000/api/auth/register", {
+                // Use API_BASE_URL + the specific endpoint
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username, email, password }),
@@ -85,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
 
     // --- User Profile Display and Logout ---
     function updateUsernameDisplay() {
@@ -164,4 +170,4 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     }
-});
+}); 

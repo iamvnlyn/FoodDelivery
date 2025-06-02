@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://fooddelivery-6q1l.onrender.com/api";
 
 // Get references to your UI elements specific to checkout.html
 const checkoutCartTableBody = document.getElementById("checkout-cart-items");
