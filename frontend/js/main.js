@@ -357,6 +357,7 @@ window.handleCheckoutSubmission = async function() {
         return;
     }
     if (!storedCart) {
+        // This case should ideally not be hit if the cart is displayed
         checkoutMessageDiv.classList.add("error");
         checkoutMessageDiv.textContent = "Your cart is empty. Please add items to order.";
         return;
@@ -364,30 +365,54 @@ window.handleCheckoutSubmission = async function() {
 
     const cartItems = JSON.parse(storedCart);
 
+    // --- ADD THIS LOGIC ---
+    // If cartItems is an empty array, prevent submission.
+    // This is a safety net if getCartItemsFromUI() ever incorrectly returns an empty array.
+    if (cartItems.length === 0) {
+        checkoutMessageDiv.classList.add("error");
+        checkoutMessageDiv.textContent = "Your cart is empty. Cannot place an order.";
+        return;
+    }
+    // --- END ADDED LOGIC ---
+
+
     try {
-        const response = await fetch(`${API_BASE_URL}/orders`, {
+        console.log("Checkout form submitted!"); // Keep this log
+
+        // --- NEW: Log the payload being sent ---
+        const payload = {
+            items: cartItems,
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            street: street,
+            barangay: barangay,
+            houseNumber: houseNumber,
+            city: city,
+            paymentMethod: paymentMethod
+        };
+        console.log("Sending payload to /api/orders:", payload);
+        // --- END NEW LOG ---
+
+        const response = await fetch(`${API_BASE_URL}/api/orders`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({
-                items: cartItems,
-                firstName: firstName,
-                middleName: middleName,
-                lastName: lastName,
-                street: street,
-                barangay: barangay,
-                houseNumber: houseNumber,
-                city: city,
-                paymentMethod: paymentMethod
-            })
+            body: JSON.stringify(payload) // Use the payload variable
         });
 
+        // --- NEW: Log the raw response status and data ---
         const data = await response.json();
+        console.log("Response from /api/orders status:", response.status);
+        console.log("Response from /api/orders data:", data);
+        // --- END NEW LOG ---
 
         if (!response.ok) {
-            throw new Error(data.message || "Failed to place order.");
+            // --- MODIFIED ERROR MESSAGE ---
+            throw new Error(data.message || `Backend error: ${response.statusText || 'Unknown error'}`);
+            // --- END MODIFIED ---
         }
 
         checkoutMessageDiv.classList.add("success");
@@ -399,19 +424,23 @@ window.handleCheckoutSubmission = async function() {
         sessionStorage.setItem('orderPlaced', 'true');
 
         sessionStorage.removeItem("currentCart");
-        window.clearCartUI?.(); // Assuming clearCartUI is defined elsewhere or will be added
+        window.clearCartUI?.();
 
         const goHomeButton = document.getElementById("goHomeButton");
         if (goHomeButton) {
             goHomeButton.onclick = () => {
-                window.location.href = "main.html";
+                window.location.href = "index.html"; // Changed from main.html to index.html
             };
         }
 
     } catch (error) {
         console.error("Order placement error:", error);
         checkoutMessageDiv.classList.add("error");
+        // --- MODIFIED ERROR MESSAGE DISPLAY ---
         checkoutMessageDiv.textContent = `Error placing order: ${error.message}`;
+        // --- REMOVE THE HARDCODED ALERT ---
+        // alert(`Your cart is empty. Cannot place an order.`);
+        // --- END MODIFIED ---
 
         checkoutForm.classList.remove("hidden");
         orderSummarySection.classList.remove("hidden");
