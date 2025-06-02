@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return;
                 }
 
-                localStorage.setItem("token", data.token);c
+                localStorage.setItem("token", data.token);
                 localStorage.setItem("username", data.user.username);
                 localStorage.setItem("userId", data.user.id); // Store user ID
                 localStorage.setItem("email", data.user.email); // Store email
@@ -151,13 +151,13 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Load cart items on main.html if user is logged in
-    if (window.location.pathname.includes("main.html") || window.location.pathname === '/') {
+    if (window.location.pathname.includes("index.html") || window.location.pathname === '/') {
         const token = localStorage.getItem("token");
         if (token) {
             fetchCartItems();
         }
     }
-
+c
     // Handle checkout page specific logic
     if (window.location.pathname.includes("checkout.html")) {
         loadCheckoutSummary();
