@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 loginMessageDiv.style.color = "green";
                 loginMessageDiv.textContent = "Login successful! Redirecting...";
-                window.location.href = "index.html"; // Redirect to main page
+                window.location.href = "index.html"; 
 
             } catch (error) {
                 console.error("Login error:", error);
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
             fetchCartItems();
         }
     }
-c
+
     // Handle checkout page specific logic
     if (window.location.pathname.includes("checkout.html")) {
         loadCheckoutSummary();

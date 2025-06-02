@@ -1,9 +1,9 @@
-// --- Top-level variables ---
+
 let cartPopup;
 let cartCountSpan;
 let cartTotalSpan;
 let cartTableBody;
-let allMenuItems = []; // This array will now be populated from HTML
+let allMenuItems = [];
 let currentCategoryFilter = 'all';
 let currentSearchTerm = '';
 
