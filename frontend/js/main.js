@@ -8,10 +8,10 @@ let currentCategoryFilter = 'all';
 let currentSearchTerm = '';
 
 // API constants (retained as cart/checkout/chat still use API)
-const OWNER_USER_ID = 1; // Assuming a fixed owner ID for chat
+const OWNER_USER_ID = 1; 
 const API_BASE_URL = 'https://fooddelivery-6q1l.onrender.com';
 
-// --- Menu Rendering and Filtering Functions (Option 2 - Hardcoded Menu Items) ---
+
 
 // Function to populate allMenuItems from the HTML structure
 function populateMenuItemsFromHTML() {
