@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'https://food-delivery-red-ten.vercel.app/' 
+    origin: 'https://food-delivery-red-ten.vercel.app' 
 }));
 
 app.use(express.json()); // Parse JSON request bodies
