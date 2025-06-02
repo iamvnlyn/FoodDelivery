@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:8080' 
+    origin: 'https://vercel.com/joves-projects-f95c2bc4/food-delivery' 
 }));
 
 app.use(express.json()); // Parse JSON request bodies
